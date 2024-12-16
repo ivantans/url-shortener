@@ -7,9 +7,9 @@ export class HttpExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
-    const status = exception.getStatus();
 
     if (exception instanceof HttpException) {
+      const status = exception.getStatus();
       const responseBody = exception.getResponse();
       return response.status(status).json({
         statusCode: status,
@@ -20,14 +20,14 @@ export class HttpExceptionsFilter implements ExceptionFilter {
       })
     }
 
-    else {
-      return response.status(500).json({
-        statusCode: 500,
-        statusMessage: HttpStatus[500],
-        timestamp: new Date().toISOString(),
-        path: request.url,
-        message: "An unexpected error occurred",
-      })
-    }
+
+    return response.status(500).json({
+      statusCode: 500,
+      statusMessage: HttpStatus[500],
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      message: "An unexpected error occurred",
+    })
+
   }
 }
